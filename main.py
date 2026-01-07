@@ -60,7 +60,7 @@ def reset_timer():
     time_left = MOVE_TIME
     if timer_id is not None:
         root.after_cancel(timer_id)
-    timer_id = root.after(1000, countdown)
+    timer_id = root.after(100, countdown)
 
 def countdown():
     global time_left, timer_id
@@ -69,8 +69,6 @@ def countdown():
         root.title(f"Connect Four - Player {currentPlayer} turn ({time_left}s)")
         timer_id = root.after(1000, countdown)
     else:
-        # Час вийшов, пропускаємо хід
-        root.title(f"Player {currentPlayer} ran out of time!")
         finalize_move(-1)  # можна змінити на автоматичний хід
         
 
