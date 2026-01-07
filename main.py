@@ -18,7 +18,7 @@ canvas.pack()
 # Глобальні змінні
 board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
 pending_move = False
-last_move = None  # зберігає останню позицію ходу
+last_move = None  
 currentPlayer = 1
 
 # Запускаємо backend
@@ -31,7 +31,6 @@ backend = subprocess.Popen(
 )
 
 def draw_board():
-    """Малюємо поточний board"""
     canvas.delete("all")
     for r in range(ROWS):
         for c in range(COLS):
@@ -42,17 +41,14 @@ def draw_board():
             canvas.create_oval(x0, y0, x1, y1, fill=colors[board[r][c]])
 
 def animate_click(row, col, player):
-    """Тимчасово показуємо хід гравця перед оновленням з бекенду"""
     board[row][col] = player
     draw_board()
 
 def animate_last_click(row, col, winner):
-    """Анімація останньої переможної фішки"""
     board[row][col] = winner
     draw_board()
 
 def finalize_move(col):
-    """Надсилаємо хід в бекенд і запускаємо асинхронне оновлення"""
     global pending_move, last_move, currentPlayer
     for r in range(ROWS-1, -1, -1):
         if board[r][col] == 0:
@@ -109,7 +105,6 @@ def check_backend():
     root.after(10, check_backend)
 
 def click(event):
-    """Обробка кліку гравця"""
     global pending_move
     if pending_move or backend.poll() is not None:
         return
